@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#10172a">
+    <title>Weatherly | Your daily forecast</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <video class="weather-background" autoplay muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/30098016/pexels-photo-30098016.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" aria-hidden="true" tabindex="-1">
+        <source src="https://videos.pexels.com/video-files/30098016/12908063_1080_1920_30fps.mp4" type="video/mp4">
+    </video>
+    <main class="weather-app">
+        <header class="app-header">
+            <a class="brand" href="#" aria-label="Weatherly home">
+                <span class="brand-icon" aria-hidden="true">☀</span>
+                <span>weatherly</span>
+            </a>
+            <p class="header-note">Your day, at a glance</p>
+        </header>
+
+        <section class="search-section" aria-labelledby="search-title">
+            <p class="eyebrow">WEATHER, WHERE YOU ARE</p>
+            <h1 id="search-title">Find your forecast</h1>
+            <form class="search-form" role="search">
+                <label class="sr-only" for="city-search">Search for a city</label>
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input id="city-search" class="search-input" name="city" type="text" placeholder="Search a city..." autocomplete="off">
+                <button type="submit" class="search-btn">Search <span aria-hidden="true">→</span></button>
+            </form>
+        </section>
+
+        <section class="weather-card" aria-label="Current weather">
+            <div class="weather-top">
+                <div class="location">
+                    <span class="location-pin" aria-hidden="true">⌖</span>
+                    <div>
+                        <h2 class="city"></h2>
+                        <p class="state-&-country"><Span class="state"></Span>, <span class="country"></span></p>
+                    </div>
+                </div>
+                <div class="weather-context">
+                    <p class="today-label">CURRENT WEATHER</p>
+                    <p class="day-night-status" aria-label="Current time of day: day">
+                        <!-- <span aria-hidden="true"></span> -->
+                        <span class="daynight-status"></span>
+                    </p>
+                    <p class="location-date-time">
+                        <span class="location-date"></span>
+                        <span class="location-time"></span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="current-weather">
+                <div class="temperature" aria-label="24 degrees Celsius"><span class="temp"></span><span class="deg-sym">°</span></div>
+                <div class="condition">
+                    <span class="weather-icon" aria-hidden="true">☀️</span>
+                    <p>Sunny</p>
+                    <!-- <span class="high-low">H: 27° <span aria-hidden="true">·</span> L: 18°</span> -->
+                </div>
+            </div>
+
+            <div class="weather-divider"></div>
+
+            <section class="details-section" aria-labelledby="details-title">
+                <h3 id="details-title">Today's details</h3>
+                <div class="details-grid">
+                    <article class="detail">
+                        <span class="detail-icon humidity-icon" aria-hidden="true">◌</span>
+                        <div>
+                            <p class="detail-label">Humidity</p>
+                            <p class="detail-value"><span class="humidity"></span><span>%</span></p>
+                        </div>
+                    </article>
+                    <article class="detail">
+                        <span class="detail-icon wind-icon" aria-hidden="true">〰</span>
+                        <div>
+                            <p class="detail-label">Wind</p>
+                            <p class="detail-value"><span class="wind"></span> <span>km/h</span></p>
+                        </div>
+                    </article>
+                    <article class="detail">
+                        <span class="detail-icon feels-icon" aria-hidden="true">🌡️</span>
+                        <div>
+                            <p class="detail-label">Feels like</p>
+                            <p class="detail-value"><span class="apa-temp"></span><span>°</span></p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </section>
+
+        <!-- <footer class="app-footer">A little sunshine in your day <span aria-hidden="true">✦</span></footer> -->
+    </main>
+    <script src="index.js">
+    </script>
+</body>
+</html>
