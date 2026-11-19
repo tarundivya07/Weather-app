@@ -12,6 +12,7 @@ let weatherIcon = document.querySelector(".weather-icon");
 let weatherCondition = document.querySelector(".condition p");
 let locationDate = document.querySelector(".location-date");
 let locationTime = document.querySelector(".location-time");
+let suggSec = document.querySelector(".sugg-sec");
 
 function getDayNightStatus(status) {
   if (status === 0) { dayNightStatus.textContent = "🌙 Night" }
@@ -38,7 +39,7 @@ let getLatLon = () => {
       
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
-      
+      console.log("current lat long", position);
   
       resolve({latitude,longitude});
     });
@@ -48,29 +49,28 @@ let getLatLon = () => {
 
 
 
-let getData = async () => {
-  let inputValue = form.querySelector("input").value;
-  let cityName = inputValue || "Raipur";
+let getData = async (searchText) => {
+console.log("------------------------");
 
-  console.log(cityName);
   try {
-    // let response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=5&language=en&format=json`)
     let myCoordinates = await getLatLon();
-    console.log("mylaong", myCoordinates.longitude, "myLatt", myCoordinates.latitude);
+    console.log("my Current laong", myCoordinates.longitude, "my current Latt", myCoordinates.latitude);
     var requestOptions = {
       method: 'GET',
     };
-    let response = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${cityName}&bias=proximity:${myCoordinates.longitude},${myCoordinates.latitude}&apiKey=9b62d2675dc642df9ccb58618f437507`, requestOptions)
-
+    console.log("Search Result Coordernates fetching started");
+    console.log("Searching", searchText);
+    let response = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${searchText}&bias=proximity:${myCoordinates.longitude},${myCoordinates.latitude}&apiKey=9b62d2675dc642df9ccb58618f437507`, requestOptions)
+    
     let data = await response.json();
-    console.log(data);
     let results = data.features[0].properties;
     results.country;
     city.textContent = results.name;
     state.textContent = results.state;
     country.textContent = results.country;
-    console.log("Location Fetching succesful");
-    console.log(results.lat, results.lon);
+    console.log("Search Result coordinates", data);
+    console.log("Search Result latitude", results.lat,"Search Result longitude", results.lon);
+    console.log("Search Result Coordinates Fetching succesful");
     let weatherResp = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${results.lat}&longitude=${results.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,wind_speed_10m,wind_direction_10m,rain,weather_code&timezone=auto`
     );
@@ -83,7 +83,6 @@ let getData = async () => {
     wind.textContent = weatherDataResults.current.wind_speed_10m;
     temp.textContent = weatherDataResults.current.temperature_2m;
     apaTemp.textContent = weatherDataResults.current.apparent_temperature;
-
 
 
     // const time = new Intl.DateTimeFormat("en-IN", {
@@ -99,11 +98,11 @@ let getData = async () => {
 
     // let dateBasedOnLocation = new Date().toLocaleString(`en`, {
     //   timeZone: weatherDataResults.timezone,
-    //   //   year: "2-digit",
-    //   //   month: "2-digit",
-    //   //   day: "2-digit",
-    //   //   weekday: "long",
-    //   //  hour: "2-digit",
+      //   year: "2-digit",
+      //   month: "2-digit",
+      //   day: "2-digit",
+      //  hour: "2-digit",
+      //   weekday: "long",
     //   dateStyle: "short",
     //   timeStyle: "medium",
     //   hour12: true
@@ -112,6 +111,7 @@ let getData = async () => {
     // console.log(
     //   fullDate.getHours(), fullDate.getMinutes()
     // );
+    
    let date = new Date().toLocaleString("en", {
       timeZone: weatherDataResults.timezone,
     dateStyle:"medium",
@@ -126,22 +126,84 @@ let getData = async () => {
     locationTime.textContent = time;
 
 
-    console.log(weatherDataResults);
+    console.log("weather result", weatherDataResults);
     console.log("Weather Fetching succesful");
   } catch (error) {
     console.log("Can not fetch data:", error);
   };
   form.querySelector("input").value = "";
-
+suggSec.innerHTML = "";
+  suggSec.style.visibility = "hidden";
 };
-getData();
+
+let latLongToAdd = async () => {
+  try{
+
+    let mmyCoordinates = await getLatLon();
+    console.log("myCurrentlong", mmyCoordinates.longitude, "myCurrentLatt", mmyCoordinates.latitude);
+    let addressRes = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${mmyCoordinates.latitude}&lon=${mmyCoordinates.longitude}&limit=10&&apiKey=d6aa67b22ee241cbb4fc1b28b1617e40`);
+    let addressObj = await addressRes.json(); 
+    let address = addressObj.features[0].properties;
+    console.log("currentAddres", addressObj)
+    // console.log("name", address.address_line1, "city", address.city, "country", address.country)
+    getData(address.city || address.address_line1);
+    
+    let sugg = async () => {
+console.log(searchInput.value);
+      let autoSugg = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${searchInput.value}&limit=10&bias=proximity:${mmyCoordinates.longitude},${mmyCoordinates.latitude}&apiKey=aececa5655b14f29baae1b8c82b3a27d`);
+      
+      let autoSuggdata = await autoSugg.json();
+suggSec.innerHTML = "";
+      autoSuggdata.features.forEach(elem => {
+        let pro = elem.properties;
+        console.log(pro.address_line1 || pro.city, pro.state || "", pro.country);
+        suggSec.innerHTML += `<div class="suggested-address" data-loca="${pro.address_line1 || pro.city}, ${pro.state || ""}, ${pro.country}">${pro.address_line1 || pro.city}, ${pro.state || ""}, ${pro.country}</div>`;
+        
+      });
+
+      document.querySelectorAll(".suggested-address").forEach((elem) => {
+        elem.addEventListener("click", (e) => {
+           
+          getData(e.target.dataset.loca);
+        });
+});
+
+      console.log();
+      console.log("autoSuggdata---->", autoSuggdata);
+    };
+     
+   searchInput.addEventListener("input", () => {
+      
+      if(searchInput.value != ""){
+        suggSec.style.visibility = "visible";
+        sugg();
+      }else{
+        suggSec.style.visibility = "hidden";
+        suggSec.innerHTML = "";
+      }
+
+    });
+
+  } catch(error) {
+console.log(error);
+  };
+  };
+latLongToAdd();
 
 
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+  let inputValue = form.querySelector("input").value;
+  if(inputValue == ""){
 
-  getData();
+    alert("please enter location");
+  }
+  else{
+    let searchText = inputValue;
+    console.log(searchText);
+    getData(searchText);
+  }
 
 });
 
@@ -149,6 +211,4 @@ form.addEventListener("submit", (e) => {
 
 
 
-//   .then(response => response.json())
-//   .then(result => console.log(result))
-//   .catch(error => console.log('error', error));
+
