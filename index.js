@@ -13,6 +13,8 @@ let weatherCondition = document.querySelector(".condition p");
 let locationDate = document.querySelector(".location-date");
 let locationTime = document.querySelector(".location-time");
 let suggSec = document.querySelector(".sugg-sec");
+let weatherCard = document.querySelector(".weather-card");
+  weatherCard.classList.add("sm-loading");
 
 function getDayNightStatus(status) {
   if (status === 0) { dayNightStatus.textContent = "🌙 Night" }
@@ -51,7 +53,8 @@ let getLatLon = () => {
 
 let getData = async (searchText) => {
 console.log("------------------------");
-
+  weatherCard.classList.add("sm-loading");
+searchInput.blur();
   try {
     let myCoordinates = await getLatLon();
     console.log("my Current laong", myCoordinates.longitude, "my current Latt", myCoordinates.latitude);
@@ -75,6 +78,8 @@ console.log("------------------------");
       `https://api.open-meteo.com/v1/forecast?latitude=${results.lat}&longitude=${results.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,wind_speed_10m,wind_direction_10m,rain,weather_code&timezone=auto`
     );
     let weatherDataResults = await weatherResp.json();
+
+
     getDayNightStatus(weatherDataResults.current.is_day);
     let currentCondition = getWeatherCondition(weatherDataResults.current.weather_code);
     weatherCondition.textContent = currentCondition.condition;
@@ -134,6 +139,8 @@ console.log("------------------------");
   form.querySelector("input").value = "";
 suggSec.innerHTML = "";
   suggSec.style.visibility = "hidden";
+       weatherCard.classList.remove("sm-loading");
+
 };
 
 let latLongToAdd = async () => {

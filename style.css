@@ -273,6 +273,14 @@ h1 {
 }
 
 .weather-card {
+    --sm-color-light-primary: 52, 64, 93, 1;
+    --sm-color-light-secondary: 61, 77, 107, 1;
+    --sm-color-dark-primary: 52, 64, 93, 1;
+    --sm-color-dark-secondary: 61, 77, 107, 1;
+    --sm-color-light-animation-primary: color-mix(in srgb, #fff 16%, rgba(var(--sm-color-light-primary)) 84%);
+    --sm-color-light-animation-secondary: color-mix(in srgb, #fff 16%, rgba(var(--sm-color-light-secondary)) 84%);
+    --sm-color-dark-animation-primary: color-mix(in srgb, #fff 16%, rgba(var(--sm-color-dark-primary)) 84%);
+    --sm-color-dark-animation-secondary: color-mix(in srgb, #fff 16%, rgba(var(--sm-color-dark-secondary)) 84%);
     padding: 28px 32px 30px;
     overflow: hidden;
     border: 1px solid rgba(201, 214, 242, 0.12);

@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#10172a">
     <title>Weatherly | Your daily forecast</title>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/skeleton-mammoth@3.1.0/dist/skeleton-mammoth.min.css"
+    >
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -37,28 +41,28 @@
                 <div class="location">
                     <span class="location-pin" aria-hidden="true">⌖</span>
                     <div>
-                        <h2 class="city"></h2>
-                        <p class="state-&-country"><Span class="state"></Span>, <span class="country"></span></p>
+                        <h2 class="city sm-item-primary">Raipur</h2>
+                        <p class="state-&-country sm-item-secondary"><span class="state">Chhattisgarh</span>, <span class="country">India</span></p>
                     </div>
                 </div>
                 <div class="weather-context">
                     <p class="today-label">CURRENT WEATHER</p>
-                    <p class="day-night-status" aria-label="Current time of day: day">
+                    <p class="day-night-status sm-item-secondary" aria-label="Current time of day: day">
                         <!-- <span aria-hidden="true"></span> -->
-                        <span class="daynight-status"></span>
+                        <span class="daynight-status">Day</span>
                     </p>
                     <p class="location-date-time">
-                        <span class="location-date"></span>
-                        <span class="location-time"></span>
+                        <span class="location-date sm-item-secondary">Nov 20, 2026</span>
+                        <span class="location-time sm-item-secondary">4:51 PM</span>
                     </p>
                 </div>
             </div>
 
             <div class="current-weather">
-                <div class="temperature" aria-label="24 degrees Celsius"><span class="temp"></span><span class="deg-sym">°</span></div>
+                <div class="temperature sm-item-primary" aria-label="24 degrees Celsius"><span class="temp">10.2</span><span class="deg-sym">°</span></div>
                 <div class="condition">
-                    <span class="weather-icon" aria-hidden="true">☀️</span>
-                    <p>Sunny</p>
+                    <span class="weather-icon sm-item-secondary" aria-hidden="true">☀️</span>
+                    <p class="sm-item-secondary">Sunny</p>
                     <!-- <span class="high-low">H: 27° <span aria-hidden="true">·</span> L: 18°</span> -->
                 </div>
             </div>
@@ -72,21 +76,21 @@
                         <span class="detail-icon humidity-icon" aria-hidden="true">◌</span>
                         <div>
                             <p class="detail-label">Humidity</p>
-                            <p class="detail-value"><span class="humidity"></span><span>%</span></p>
+                            <p class="detail-value sm-item-secondary"><span class="humidity">83</span><span>%</span></p>
                         </div>
                     </article>
                     <article class="detail">
                         <span class="detail-icon wind-icon" aria-hidden="true">〰</span>
                         <div>
                             <p class="detail-label">Wind</p>
-                            <p class="detail-value"><span class="wind"></span> <span>km/h</span></p>
+                            <p class="detail-value sm-item-secondary"><span class="wind">4.4</span> <span>km/h</span></p>
                         </div>
                     </article>
                     <article class="detail">
                         <span class="detail-icon feels-icon" aria-hidden="true">🌡️</span>
                         <div>
                             <p class="detail-label">Feels like</p>
-                            <p class="detail-value"><span class="apa-temp"></span><span>°</span></p>
+                            <p class="detail-value sm-item-secondary"><span class="apa-temp">18.3</span><span>°</span></p>
                         </div>
                     </article>
                 </div>
